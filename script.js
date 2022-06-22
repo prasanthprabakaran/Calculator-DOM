@@ -1,5 +1,13 @@
 let section = document.createElement("section");
 
+let h1 = document.createElement("h1");
+h1.innerHTML = "DOM Calculator";
+h1.id = "title";
+
+let p = document.createElement("p");
+p.innerHTML = "Welcome !";
+p.id = "description";
+
 let container = createClass("container");
 let calculator = createClass("calculator");
 let display = createClass("display");
@@ -9,25 +17,25 @@ let temp_Result = createClass("temp-result");
 
 
 let all_Button = createClass("all_button");
-let btnC = createBtn("all-clear","C");
-let btnCE = createBtn("last-entity-clear","CE");
-let btnMod = createBtn("operation","%");
-let btnX = createBtn("operation","x");
+let btnC = createBtnOp("all-clear","clear","C");
+let btnCE = createBtnOp("last-entity-clear","temp-clear","CE");
+let btnMod = createBtnOp("operation","Modulus","%");
+let btnX = createBtnOp("operation","multiply","x");
 let btn7 = createBtn("number","7");
 let btn8 = createBtn("number","8");
 let btn9 = createBtn("number","9");
-let btnSlash = createBtn("operation","/");
+let btnSlash = createBtnOp("operation","divide","/");
 let btn4 = createBtn("number","4");
 let btn5 = createBtn("number","5");
 let btn6 = createBtn("number","6");
-let btnMinus = createBtn("operation","-");
+let btnMinus = createBtnOp("operation","subtract","-");
 let btn1 = createBtn("number","1");
 let btn2 = createBtn("number","2");
 let btn3 = createBtn("number","3");
-let btnAdd = createBtn("operation","+");
+let btnAdd = createBtnOp("operation","add","+");
 let btn0 = createBtn("number","0");
 let btnDot = createBtn2("number","dot",".");
-let btnEqual = createBtn2("equal","btnEqual","=");
+let btnEqual = createBtnOp2("equal","btnEqual","equal","=");
 
 display.append(display_1,display_2,temp_Result);
 all_Button.append(
@@ -39,7 +47,7 @@ all_Button.append(
 
 calculator.append(display,all_Button);
 container.append(calculator);
-section.append(container);
+section.append(h1,p,container);
 document.body.append(section);
 
 
@@ -57,18 +65,41 @@ function createClass2(clsName,value) {
 };
 
 function createBtn(clsName,value){
-    let ele = document.createElement("div");
+    let ele = document.createElement("button");
+    ele.type = "button";
     ele.classList.add("button",clsName);
     ele.innerHTML= value;
+    ele.id = value;
+    return ele;
+};
+
+function createBtnOp(clsName,idName,value){
+    let ele = document.createElement("button");
+    ele.type = "button";
+    ele.classList.add("button",clsName);
+    ele.innerHTML= value;
+    ele.id = idName;
     return ele;
 };
 
 function createBtn2(clsName2,clsName3,value){
-    let ele = document.createElement("div");
+    let ele = document.createElement("button");
+    ele.type = "button";
     ele.classList.add("button",clsName2,clsName3);
     ele.innerHTML= value;
+    ele.id = value;
     return ele;
 };
+
+function createBtnOp2(clsName2,clsName3,idName,value){
+    let ele = document.createElement("button");
+    ele.type = "button";
+    ele.classList.add("button",clsName2,clsName3);
+    ele.innerHTML= value;
+    ele.id = idName;
+    return ele;
+};
+
 
 
 
@@ -96,7 +127,6 @@ numbersEl.forEach((number) => {
       }
       dis2Num += e.target.innerText;
       display2El.innerText = dis2Num;
-      // console.log();
     });
 });
 
@@ -112,7 +142,6 @@ operationEl.forEach((operation) => {
         }
         clearVar(operationName);
         lastOperation = operationName;
-        console.log(result);
         
     });
 });
@@ -180,7 +209,6 @@ window.addEventListener("keydown",(e) => {
         e.key === "."
     ) {
         clickButtonEl(e.key);
-        console.log(e.key)
     } else if (e.key ==="+" || e.key === "-" ||e.key === "/" || e.key === "%"){
         clickOperation(e.key);
     } else if (e.key === "*") {
